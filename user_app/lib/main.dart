@@ -53,7 +53,7 @@ class _closedState extends State<closed> {
                   height: 200,
                   width: 300,
                   child: Image.asset(
-                    'assets/closeddown.jpg',
+                    'assets/images/closeddown.jpg',
                     height: 200,
                   ),
                 ),

@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:admin_app/database/category.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:admin_app/database/add_product.dart';
+import 'package:admin_app/screens/show_category.dart';
+import 'package:admin_app/screens/show_orders.dart';
+import 'package:admin_app/screens/show_product.dart';
+import 'package:admin_app/screens/show_feedback.dart';
 
 enum Page { dashboard, manage }
 
@@ -92,21 +96,6 @@ class _AdminState extends State<Admin> {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2),
                 children: <Widget>[
-                  /*Padding(
-                    padding: const EdgeInsets.all(18.0),
-                    child: Card(
-                      child: ListTile(
-                          title: FlatButton.icon(
-                              onPressed: null,
-                              icon: Icon(Icons.people_outline),
-                              label: Text("Users")),
-                          subtitle: Text(
-                            '7',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: active, fontSize: 60.0),
-                          )),
-                    ),
-                  ),*/
                   Padding(
                     padding: const EdgeInsets.all(22.0),
                     child: Card(
@@ -129,7 +118,10 @@ class _AdminState extends State<Admin> {
                           ],
                         ),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (_) => ShowCategory()));
+                      },
                     )),
                   ),
                   Padding(
@@ -154,24 +146,12 @@ class _AdminState extends State<Admin> {
                           ],
                         ),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (_) => ShowProduct()));
+                      },
                     )),
                   ),
-                  /*Padding(
-                    padding: const EdgeInsets.all(22.0),
-                    child: Card(
-                      child: ListTile(
-                          title: FlatButton.icon(
-                              onPressed: null,
-                              icon: Icon(Icons.tag_faces),
-                              label: Text("Sold")),
-                          subtitle: Text(
-                            '13',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: active, fontSize: 60.0),
-                          )),
-                    ),
-                  ),*/
                   Padding(
                     padding: const EdgeInsets.all(22.0),
                     child: Card(
@@ -194,7 +174,10 @@ class _AdminState extends State<Admin> {
                           ],
                         ),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (_) => ShowOrders()));
+                      },
                     )),
                   ),
                   Padding(
@@ -206,20 +189,23 @@ class _AdminState extends State<Admin> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(
-                              Icons.restaurant,
+                              Icons.feedback_rounded,
                               size: 50,
                             ),
                             SizedBox(
                               height: 20,
                             ),
                             Text(
-                              "Report",
+                              "Feedback",
                               style: TextStyle(fontSize: 20),
                             ),
                           ],
                         ),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (_) => ShowFeedback()));
+                      },
                     )),
                   ),
                 ],

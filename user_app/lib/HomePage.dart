@@ -6,11 +6,15 @@ import 'package:user_app/widgets/SearchWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:user_app/authenticate/SignInPage.dart';
 import 'package:user_app/foods/DisplayFood.dart';
+import 'package:user_app/global.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class _HomePageState extends State<HomePage> {
   @override
@@ -34,11 +38,20 @@ class _HomePageState extends State<HomePage> {
           actions: <Widget>[
             IconButton(
                 icon: Icon(
-                  Icons.notifications_none,
+                  Icons.logout,
                   color: Color(0xFF3a3737),
                 ),
                 onPressed: () {
-                  Navigator.push(context, ScaleRoute(page: SignInPage()));
+                  currentUser = " ";
+                  items = new List();
+                  quantity = new List<int>();
+                  prices = new List<double>();
+                  uid = 'Ovj2ey5RS3sc1YaAmyJQ';
+                  total = calculateTotal();
+                  _auth.signOut().then(
+                        (res) => Navigator.push(context,
+                            MaterialPageRoute(builder: (_) => SignInPage())),
+                      );
                 })
           ],
         ),

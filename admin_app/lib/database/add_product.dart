@@ -84,10 +84,7 @@ class _AddProductState extends State<AddProduct> {
                                 borderSide: BorderSide(
                                     color: grey.withOpacity(0.5), width: 2.5),
                                 onPressed: () {
-                                  _selectImage(
-                                      ImagePicker.pickImage(
-                                          source: ImageSource.gallery),
-                                      1);
+                                  _showSelectionDialog(context, 1);
                                 },
                                 child: _displayChild1()),
                           ),
@@ -99,10 +96,7 @@ class _AddProductState extends State<AddProduct> {
                                 borderSide: BorderSide(
                                     color: grey.withOpacity(0.5), width: 2.5),
                                 onPressed: () {
-                                  _selectImage(
-                                      ImagePicker.pickImage(
-                                          source: ImageSource.gallery),
-                                      2);
+                                  _showSelectionDialog(context, 2);
                                 },
                                 child: _displayChild2()),
                           ),
@@ -114,10 +108,7 @@ class _AddProductState extends State<AddProduct> {
                               borderSide: BorderSide(
                                   color: grey.withOpacity(0.5), width: 2.5),
                               onPressed: () {
-                                _selectImage(
-                                    ImagePicker.pickImage(
-                                        source: ImageSource.gallery),
-                                    3);
+                                _showSelectionDialog(context, 3);
                               },
                               child: _displayChild3(),
                             ),
@@ -220,6 +211,40 @@ class _AddProductState extends State<AddProduct> {
         ),
       ),
     );
+  }
+
+  Future<void> _showSelectionDialog(BuildContext context, int n) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: Text("From where do you want to take the photo?"),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    GestureDetector(
+                      child: Text("Gallery"),
+                      onTap: () {
+                        _selectImage(
+                            ImagePicker.pickImage(source: ImageSource.gallery),
+                            n);
+                        Navigator.pop(context);
+                      },
+                    ),
+                    Padding(padding: EdgeInsets.all(8.0)),
+                    GestureDetector(
+                      child: Text("Camera"),
+                      onTap: () {
+                        _selectImage(
+                            ImagePicker.pickImage(source: ImageSource.camera),
+                            n);
+                        Navigator.pop(context);
+                      },
+                    )
+                  ],
+                ),
+              ));
+        });
   }
 
   _getCategories() async {

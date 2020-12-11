@@ -144,24 +144,6 @@ class SignUpPage extends StatelessWidget {
                       alignment: Alignment.topLeft,
                       child: Icon(Icons.close),
                     ),
-// =======
-                    // return Scaffold(
-                    //   resizeToAvoidBottomInset: false,
-                    //   body: Container(
-                    //     padding: EdgeInsets.only(left: 20, right: 20, top: 30, bottom: 30),
-                    //     width: double.infinity,
-                    //     height: double.infinity,
-                    //     color: Colors.white70,
-                    //     child: Column(
-                    //       children: <Widget>[
-                    //         Flexible(
-                    //           flex: 1,
-                    //           child: InkWell(
-                    //             child: Container(
-                    //               child: Align(
-                    //                 alignment: Alignment.topLeft,
-                    //                 child: Icon(Icons.close),
-//main
                   ),
                   onTap: () {
                     Navigator.pop(context);
@@ -243,6 +225,7 @@ class SignUpPage extends StatelessWidget {
                     TextField(
                       controller: passwd,
                       showCursor: true,
+                      obscureText: true,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -300,30 +283,15 @@ class SignUpPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SignInPage()),
-                          );
-                        },
-                        child: Container(
-                          child: Text(
-                            "Sign In",
-                            style: TextStyle(
-                              color: Color(0xFFf7418c),
-                              fontFamily: defaultFontFamily,
-                              fontSize: defaultFontSize,
-                              fontStyle: FontStyle.normal,
-                            ),
-                          ),
-                        ),
+                      Row(
+                        children: [
+                          SignInButtonWidget3(),
+                        ],
                       ),
                     ],
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -433,100 +401,19 @@ class SignInButtonWidget2 extends StatelessWidget {
   }
 }
 
-class FacebookGoogleLogin extends StatelessWidget {
+class SignInButtonWidget3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: Column(
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(top: 10.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  gradient: new LinearGradient(
-                      colors: [
-                        Colors.black12,
-                        Colors.black54,
-                      ],
-                      begin: const FractionalOffset(0.0, 0.0),
-                      end: const FractionalOffset(1.0, 1.0),
-                      stops: [0.0, 1.0],
-                      tileMode: TileMode.clamp),
-                ),
-                width: 100.0,
-                height: 1.0,
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 15.0, right: 15.0),
-                child: Text(
-                  "Or",
-                  style: TextStyle(
-                      color: Color(0xFF2c2b2b),
-                      fontSize: 16.0,
-                      fontFamily: "WorkSansMedium"),
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  gradient: new LinearGradient(
-                      colors: [
-                        Colors.black54,
-                        Colors.black12,
-                      ],
-                      begin: const FractionalOffset(0.0, 0.0),
-                      end: const FractionalOffset(1.0, 1.0),
-                      stops: [0.0, 1.0],
-                      tileMode: TileMode.clamp),
-                ),
-                width: 100.0,
-                height: 1.0,
-              ),
-            ],
-          ),
+      child: FlatButton(
+        onPressed: () {
+          Navigator.push(context, ScaleRoute(page: SignInPage()));
+        },
+        child: Text(
+          'Login',
+          style: TextStyle(color: Colors.pink),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(top: 10.0, right: 40.0),
-              child: GestureDetector(
-                onTap: () {},
-                child: Container(
-                  padding: const EdgeInsets.all(15.0),
-                  decoration: new BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color(0xFFf7418c),
-                  ),
-                  child: new Icon(
-                    FontAwesomeIcons.facebookF,
-                    color: Color(0xFFFFFFFF),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 10.0),
-              child: GestureDetector(
-                onTap: () => {},
-                child: Container(
-                  padding: const EdgeInsets.all(15.0),
-                  decoration: new BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color(0xFFf7418c),
-                  ),
-                  child: new Icon(
-                    FontAwesomeIcons.google,
-                    color: Color(0xFFFFFFFF),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    ));
+      ),
+    );
   }
 }

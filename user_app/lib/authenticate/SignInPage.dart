@@ -134,6 +134,7 @@ class _SignInPageState extends State<SignInPage> {
                     ),
                     TextField(
                       showCursor: true,
+                      obscureText: true,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),

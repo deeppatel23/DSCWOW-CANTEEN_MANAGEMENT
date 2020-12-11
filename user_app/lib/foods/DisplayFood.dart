@@ -231,6 +231,7 @@ void addToCart(var name, var price, context) {
   prices.add(double.parse(price.toString()));
   print(quantity.length);
   print(items.length);
+  total = calculateTotal();
   reload(context);
 }
 

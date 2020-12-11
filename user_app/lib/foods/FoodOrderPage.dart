@@ -59,7 +59,7 @@ void placeOrder(context) async {
       .collection('orders')
       .add({
         /// ui
-        "amount": double.parse(t),
+        "amount": calculateTotal(),
         "items": items,
         "user": currentUser,
         "quantity": quantity,
@@ -88,37 +88,6 @@ void placeOrder(context) async {
             ),
           })
       .catchError((err) => Dialog(child: Text(err)));
-}
-
-void updateUser() {
-  var no;
-  var orders = new List();
-  FirebaseFirestore.instance
-      .collection("ordercount")
-      .doc('pztEtXQyaXtfXJWFHI6U')
-      .get()
-      .then((value) {
-    no = value['count'];
-    print("sucess");
-    print(no.runtimeType);
-  });
-  print("hello");
-  no += 1;
-  print(no);
-  FirebaseFirestore.instance
-      .collection("ordercount")
-      .doc('pztEtXQyaXtfXJWFHI6U')
-      .updateData({"count": no.toString()});
-  /*
-  FirebaseFirestore.instance.collection("users").doc(uid).get().then((value){
-    orders = value['orders'];
-    print(orders);
-  });
-  orders[orders.length] = no;
-  print(orders);
-  FirebaseFirestore.instance.collection("users").document('3M073nVDe6zWGtpbgha3').updateData({
-    "orders": orders
-  });*/
 }
 
 class MyAo extends StatefulWidget {
@@ -204,7 +173,7 @@ class _MyAoState extends State<MyAo> {
                               textAlign: TextAlign.left,
                             ),
                             Text(
-                              total.toString(),
+                              calculateTotal().toString(),
                               style: TextStyle(
                                   fontSize: 18,
                                   color: Color(0xFF3a3a3b),

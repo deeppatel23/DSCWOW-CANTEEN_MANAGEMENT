@@ -4,6 +4,7 @@ import 'package:user_app/authenticate/SignInPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:user_app/widgets/Feedback.dart';
 
 class BottomNavBarWidget extends StatefulWidget {
   @override
@@ -17,10 +18,10 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
     void _onItemTapped(int index) {
       setState(() {
         _selectedIndex = index;
-        if (_selectedIndex == 1) {
+        if (_selectedIndex == 3) {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => FoodOrderPage()),
+            MaterialPageRoute(builder: (context) => FeedBack()),
           );
         }
         if (_selectedIndex == 0) {
@@ -72,6 +73,13 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
           icon: Icon(FontAwesomeIcons.steamSymbol),
           title: Text(
             'Order Status',
+            style: TextStyle(color: Color(0xFF2c2b2b)),
+          ),
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.feedback),
+          title: Text(
+            'Feedback',
             style: TextStyle(color: Color(0xFF2c2b2b)),
           ),
         ),

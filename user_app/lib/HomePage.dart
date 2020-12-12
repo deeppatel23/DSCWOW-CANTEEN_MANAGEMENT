@@ -26,14 +26,13 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Color(0xFFFAFAFA),
           elevation: 0,
           title: Text(
-            "What would you like to eat?",
+            "DSC CANTEEN",
             style: TextStyle(
                 color: Color(0xFF3a3737),
-
-                /// ui
-                fontSize: 16,
-                fontWeight: FontWeight.w500),
+                fontSize: 20,
+                fontWeight: FontWeight.bold),
           ),
+          centerTitle: true,
           brightness: Brightness.light,
           actions: <Widget>[
             IconButton(

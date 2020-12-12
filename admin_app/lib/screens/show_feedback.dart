@@ -45,12 +45,23 @@ class VideoScreenState extends State<ShowFeedback> {
                           // height: MediaQuery.of(context).size.height / 2,
                           child: Container(
                             margin: EdgeInsets.all(8),
-                            height: 50,
-                            child: Center(
-                              child: Text(
-                                document['name'] + '\n' + document['feedback'],
-                                style: TextStyle(fontSize: 20),
-                              ),
+                            height: 100,
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    document['name'],
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                ),
+                                Expanded(child: Text('\n')),
+                                Expanded(
+                                  child: Text(
+                                    document['feedback'],
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                )
+                              ],
                             ),
                             decoration: BoxDecoration(
                               color: Colors.white,

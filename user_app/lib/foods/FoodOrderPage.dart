@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:user_app/global.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignInButtonWidget extends StatelessWidget {
   @override
@@ -46,6 +47,9 @@ class SignInButtonWidget extends StatelessWidget {
     );
   }
 }
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
+User user = _auth.currentUser;
 
 bool payment = false;
 String t = total.toString();

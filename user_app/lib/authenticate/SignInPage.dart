@@ -292,7 +292,8 @@ class SignInButtonWidget extends StatelessWidget {
 void logInToFb(context) {
   FirebaseAuth.instance
       .signInWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text)
+          email: emailController.text.trim(),
+          password: passwordController.text.trim())
       .then((result) {
     isLoading = false;
     Navigator.pushReplacement(
@@ -301,8 +302,19 @@ void logInToFb(context) {
 
       //MaterialPageRoute(builder: (context) => Homepage()),
     );
+
+    FirebaseFirestore.instance.collection('users').get().then((querySnapshot) {
+      querySnapshot.docs.forEach((result) {
+        print(result.get('email'));
+        print(emailController.text);
+        if (result.get('email') == emailController.text) {
+          currentUser = result.get('name');
+
+          print(currentUser);
+        }
+      });
+    });
     passwordController.clear();
-    emailController.clear();
   }).catchError((err) {
     isLoading = false;
     print(err.message);

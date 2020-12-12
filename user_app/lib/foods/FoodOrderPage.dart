@@ -48,14 +48,10 @@ class SignInButtonWidget extends StatelessWidget {
   }
 }
 
-final FirebaseAuth _auth = FirebaseAuth.instance;
-User user = _auth.currentUser;
-
 bool payment = false;
 String t = total.toString();
 final date = new DateTime.now();
-final time = new DateTime.now().millisecondsSinceEpoch;
-String time2 = time.toString();
+String orderid = date.toString();
 void placeOrder(context) async {
   await Firebase.initializeApp();
   print("fuc called");
@@ -70,17 +66,8 @@ void placeOrder(context) async {
         "payment": payment,
         "status": "a",
         "datetime": date,
-        "orderid": date.toString()
+        "orderid": orderid
       })
-// =======
-//         "amount": 100,
-//         "items": items,
-//         "user": currentUser,
-//         "quantity": quantity,
-//         "payment": payment,
-//         "orderid": orders + 1,
-//       })
-      /// main
       .then((result) => {
             print(result),
             Navigator.push(
@@ -235,7 +222,7 @@ class ListViewBuilder extends StatelessWidget {
       body: ListView.builder(
           itemCount: 1,
           itemBuilder: (BuildContext context, int index) {
-            if (status == "b") {
+            if (getStatus() == 'b') {
               return Container(
                 alignment: Alignment.center,
                 width: double.infinity,
@@ -293,7 +280,7 @@ class ListViewBuilder extends StatelessWidget {
                 ),
               );
             }
-            if (status == "c") {
+            if (getStatus() == 'c') {
               return Container(
                 alignment: Alignment.center,
                 width: double.infinity,
@@ -350,79 +337,170 @@ class ListViewBuilder extends StatelessWidget {
                   ),
                 ),
               );
+            } else {
+              return Container(
+                alignment: Alignment.center,
+                width: double.infinity,
+                height: 100,
+                decoration: BoxDecoration(boxShadow: [
+                  BoxShadow(
+                    color: Color(0xFFfae3e2).withOpacity(0.1),
+                    spreadRadius: 1,
+                    blurRadius: 1,
+                    offset: Offset(0, 1),
+                  ),
+                ]),
+                child: Card(
+                  color: Colors.white,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(5.0),
+                    ),
+                  ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.white,
+                    ),
+                    height: 70,
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.only(
+                        left: 25, right: 30, top: 10, bottom: 10),
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Icon(
+                              Icons.check,
+                              color: Colors.lightGreenAccent,
+                            ),
+                            Text(
+                              "Order Placed and Waiting",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: Color(0xFF3a3a3b),
+                                  fontWeight: FontWeight.w600),
+                              textAlign: TextAlign.left,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
             }
-            return Container(
-              alignment: Alignment.center,
-              width: double.infinity,
-              height: 100,
-              decoration: BoxDecoration(boxShadow: [
-                BoxShadow(
-                  color: Color(0xFFfae3e2).withOpacity(0.1),
-                  spreadRadius: 1,
-                  blurRadius: 1,
-                  offset: Offset(0, 1),
-                ),
-              ]),
-              child: Card(
-                color: Colors.white,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(5.0),
-                  ),
-                ),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: Colors.white,
-                  ),
-                  height: 70,
-                  alignment: Alignment.center,
-                  padding:
-                      EdgeInsets.only(left: 25, right: 30, top: 10, bottom: 10),
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Icon(
-                            Icons.check,
-                            color: Colors.lightGreenAccent,
-                          ),
-                          Text(
-                            "Order Placed and Waiting",
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: Color(0xFF3a3a3b),
-                                fontWeight: FontWeight.w600),
-                            textAlign: TextAlign.left,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            );
           }),
     );
   }
 }
 
-String status;
-void getStatus() {
-  FirebaseFirestore.instance
-      .collection("users")
-      .document(uid)
-      .get()
-      .then((value) {
-    print(value.data());
-    status = value.data()['status'];
-    print(status);
+String st;
+String getStatus() {
+  FirebaseFirestore.instance.collection('orders').get().then((querySnapshot) {
+    querySnapshot.docs.forEach((result) {
+      //print(result.get('email'));
+      print("aaa" + orderid);
+      print("all" + result.get('orderid'));
+      if (result.get('orderid') == date.toString()) {
+        // status = result.get('status');
+        print("rghb" + result.get('orderid'));
+        st = result.get('status');
+        print("status : " + st);
+      }
+    });
   });
+  print("Before" + st);
+  return st;
+}
+
+Widget ShowStatus() {
+  return Scaffold(
+    body: Column(
+      children: <Widget>[
+        Container(
+          alignment: Alignment.center,
+          width: double.infinity,
+          height: 100,
+          decoration: BoxDecoration(boxShadow: [
+            BoxShadow(
+              color: Color(0xFFfae3e2).withOpacity(0.1),
+              spreadRadius: 1,
+              blurRadius: 1,
+              offset: Offset(0, 1),
+            ),
+          ]),
+          child: Card(
+            color: Colors.white,
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: const BorderRadius.all(
+                Radius.circular(5.0),
+              ),
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: Colors.white,
+              ),
+              height: 70,
+              alignment: Alignment.center,
+              padding:
+                  EdgeInsets.only(left: 25, right: 30, top: 10, bottom: 10),
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Icon(
+                        Icons.cancel,
+                        color: Colors.red,
+                      ),
+                      if (getStatus() == 'a')
+                        Text(
+                          "Ordered and waiting for confitmation.",
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: Color(0xFF3a3a3b),
+                              fontWeight: FontWeight.w600),
+                          textAlign: TextAlign.left,
+                        )
+                      else if (getStatus() == 'b')
+                        Text(
+                          "Ordered rejected!",
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: Color(0xFF3a3a3b),
+                              fontWeight: FontWeight.w600),
+                          textAlign: TextAlign.left,
+                        )
+                      else
+                        Text(
+                          "Food Ready",
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: Color(0xFF3a3a3b),
+                              fontWeight: FontWeight.w600),
+                          textAlign: TextAlign.left,
+                        )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
 }
 
 class FoodOrderPage extends StatefulWidget {

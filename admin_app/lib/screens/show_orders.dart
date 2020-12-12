@@ -87,16 +87,6 @@ class VideoScreenState extends State<ShowOrders> {
                           else
                             Text('\nStatus not available'),
                           Padding(
-                            padding: const EdgeInsets.only(left: 15),
-                            child: Row(children: [
-                              for (int i = 0; i < items.length; i++)
-                                Text(items[i] +
-                                    " - " +
-                                    document['quantity'][i].toString() +
-                                    " "),
-                            ]),
-                          ),
-                          Padding(
                               padding: const EdgeInsets.only(left: 15),
                               child: Column(children: [
                                 for (int i = 0; i < items.length; i++)

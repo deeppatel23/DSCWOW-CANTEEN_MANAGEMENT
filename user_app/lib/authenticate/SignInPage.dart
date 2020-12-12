@@ -9,6 +9,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:user_app/HomePage.dart';
 
+TextEditingController emailController = TextEditingController();
+TextEditingController passwordController = TextEditingController();
+bool isLoading = false;
+
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn googleSignIn = GoogleSignIn();
 Future<String> signInWithGoogle() async {
@@ -107,6 +111,7 @@ class _SignInPageState extends State<SignInPage> {
                     ),
                     TextField(
                       showCursor: true,
+                      controller: emailController,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -134,6 +139,7 @@ class _SignInPageState extends State<SignInPage> {
                     ),
                     TextField(
                       showCursor: true,
+                      controller: passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -278,12 +284,53 @@ class SignInButtonWidget extends StatelessWidget {
               ),
             ),
             onPressed: () => {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomePage()),
-                  ),
+                  logInToFb(context),
                 }));
   }
+}
+
+void logInToFb(context) {
+  FirebaseAuth.instance
+      .signInWithEmailAndPassword(
+          email: emailController.text, password: passwordController.text)
+      .then((result) {
+    isLoading = false;
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => HomePage()),
+
+      //MaterialPageRoute(builder: (context) => Homepage()),
+    );
+    passwordController.clear();
+    emailController.clear();
+  }).catchError((err) {
+    isLoading = false;
+    print(err.message);
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Error"),
+            content: Text(err.message),
+            actions: [
+              FlatButton(
+                child: Text("Ok"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignInPage()),
+                    );
+                  },
+                  child: Text("Back"))
+            ],
+          );
+        });
+  });
 }
 
 class SignInButtonWidget2 extends StatelessWidget {

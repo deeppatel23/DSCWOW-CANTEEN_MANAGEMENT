@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:user_app/global.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:user_app/foods/OrderHistory.dart';
 
 class SignInButtonWidget extends StatelessWidget {
   @override
@@ -65,18 +66,25 @@ void placeOrder(context) async {
         "quantity": quantity,
         "payment": payment,
         "status": "a",
-        "datetime": date,
-        "orderid": orderid
+        "datetime": DateTime.now(),
+        "orderid": DateTime.now().toString(),
       })
       .then((result) => {
-            print(result),
+            //print(result),
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MyAo()),
+              MaterialPageRoute(builder: (context) => ShowOrders()),
             ),
             Dialog(
               child: Text("Ordered sucessfully"),
             ),
+            items.clear(),
+            items = new List(),
+            quantity.clear(),
+            quantity = new List<int>(),
+            prices.clear(),
+            prices = new List<double>(),
+            total = calculateTotal(),
           })
       .catchError((err) => Dialog(child: Text(err)));
 }
@@ -180,7 +188,7 @@ class _MyAoState extends State<MyAo> {
               ),
               Container(
                 height: 120,
-                child: ListViewBuilder(),
+                child: ShowOrders(),
               ),
             ],
           ),
@@ -215,301 +223,13 @@ class _items1State extends State<items1> {
   }
 }
 
-class ListViewBuilder extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView.builder(
-          itemCount: 1,
-          itemBuilder: (BuildContext context, int index) {
-            if (getStatus() == 'b') {
-              return Container(
-                alignment: Alignment.center,
-                width: double.infinity,
-                height: 100,
-                decoration: BoxDecoration(boxShadow: [
-                  BoxShadow(
-                    color: Color(0xFFfae3e2).withOpacity(0.1),
-                    spreadRadius: 1,
-                    blurRadius: 1,
-                    offset: Offset(0, 1),
-                  ),
-                ]),
-                child: Card(
-                  color: Colors.white,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(5.0),
-                    ),
-                  ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.white,
-                    ),
-                    height: 70,
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.only(
-                        left: 25, right: 30, top: 10, bottom: 10),
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Icon(
-                              Icons.cancel,
-                              color: Colors.red,
-                            ),
-                            Text(
-                              "Order Cancelled",
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color: Color(0xFF3a3a3b),
-                                  fontWeight: FontWeight.w600),
-                              textAlign: TextAlign.left,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            }
-            if (getStatus() == 'c') {
-              return Container(
-                alignment: Alignment.center,
-                width: double.infinity,
-                height: 100,
-                decoration: BoxDecoration(boxShadow: [
-                  BoxShadow(
-                    color: Color(0xFFfae3e2).withOpacity(0.1),
-                    spreadRadius: 1,
-                    blurRadius: 1,
-                    offset: Offset(0, 1),
-                  ),
-                ]),
-                child: Card(
-                  color: Colors.white,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(5.0),
-                    ),
-                  ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.white,
-                    ),
-                    height: 70,
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.only(
-                        left: 25, right: 30, top: 10, bottom: 10),
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Icon(
-                              Icons.fastfood,
-                              color: Colors.pinkAccent,
-                            ),
-                            Text(
-                              "Your Food is ready",
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color: Color(0xFF3a3a3b),
-                                  fontWeight: FontWeight.w600),
-                              textAlign: TextAlign.left,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            } else {
-              return Container(
-                alignment: Alignment.center,
-                width: double.infinity,
-                height: 100,
-                decoration: BoxDecoration(boxShadow: [
-                  BoxShadow(
-                    color: Color(0xFFfae3e2).withOpacity(0.1),
-                    spreadRadius: 1,
-                    blurRadius: 1,
-                    offset: Offset(0, 1),
-                  ),
-                ]),
-                child: Card(
-                  color: Colors.white,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(5.0),
-                    ),
-                  ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.white,
-                    ),
-                    height: 70,
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.only(
-                        left: 25, right: 30, top: 10, bottom: 10),
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Icon(
-                              Icons.check,
-                              color: Colors.lightGreenAccent,
-                            ),
-                            Text(
-                              "Order Placed and Waiting",
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color: Color(0xFF3a3a3b),
-                                  fontWeight: FontWeight.w600),
-                              textAlign: TextAlign.left,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            }
-          }),
-    );
-  }
-}
-
-String st;
-String getStatus() {
-  FirebaseFirestore.instance.collection('orders').get().then((querySnapshot) {
-    querySnapshot.docs.forEach((result) {
-      //print(result.get('email'));
-      print("aaa" + orderid);
-      print("all" + result.get('orderid'));
-      if (result.get('orderid') == date.toString()) {
-        // status = result.get('status');
-        print("rghb" + result.get('orderid'));
-        st = result.get('status');
-        print("status : " + st);
-      }
-    });
-  });
-  print("Before" + st);
-  return st;
-}
-
-Widget ShowStatus() {
-  return Scaffold(
-    body: Column(
-      children: <Widget>[
-        Container(
-          alignment: Alignment.center,
-          width: double.infinity,
-          height: 100,
-          decoration: BoxDecoration(boxShadow: [
-            BoxShadow(
-              color: Color(0xFFfae3e2).withOpacity(0.1),
-              spreadRadius: 1,
-              blurRadius: 1,
-              offset: Offset(0, 1),
-            ),
-          ]),
-          child: Card(
-            color: Colors.white,
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: const BorderRadius.all(
-                Radius.circular(5.0),
-              ),
-            ),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: Colors.white,
-              ),
-              height: 70,
-              alignment: Alignment.center,
-              padding:
-                  EdgeInsets.only(left: 25, right: 30, top: 10, bottom: 10),
-              child: Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Icon(
-                        Icons.cancel,
-                        color: Colors.red,
-                      ),
-                      if (getStatus() == 'a')
-                        Text(
-                          "Ordered and waiting for confitmation.",
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: Color(0xFF3a3a3b),
-                              fontWeight: FontWeight.w600),
-                          textAlign: TextAlign.left,
-                        )
-                      else if (getStatus() == 'b')
-                        Text(
-                          "Ordered rejected!",
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: Color(0xFF3a3a3b),
-                              fontWeight: FontWeight.w600),
-                          textAlign: TextAlign.left,
-                        )
-                      else
-                        Text(
-                          "Food Ready",
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: Color(0xFF3a3a3b),
-                              fontWeight: FontWeight.w600),
-                          textAlign: TextAlign.left,
-                        )
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
 class FoodOrderPage extends StatefulWidget {
   @override
   _FoodOrderPageState createState() => _FoodOrderPageState();
 }
 
 class _FoodOrderPageState extends State<FoodOrderPage> {
-  int counter = 3;
+  //int counter = 3;
 
   @override
   Widget build(BuildContext context) {
@@ -530,8 +250,8 @@ class _FoodOrderPageState extends State<FoodOrderPage> {
               "Item Carts",
               style: TextStyle(
                   color: Color(0xFF3a3737),
-                  fontWeight: FontWeight.w600,
-                  fontSize: 18),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 19),
               textAlign: TextAlign.center,
             ),
           ),
@@ -643,62 +363,6 @@ class _FoodOrderPageState extends State<FoodOrderPage> {
                           )
                         ],
                       ),
-// =======
-//           brightness: Brightness.light,
-//           actions: <Widget>[
-//             CartIconWithBadge(),
-//           ],
-//         ),
-//         body: SingleChildScrollView(
-//           child: Container(
-//             padding: EdgeInsets.all(8),
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: <Widget>[
-//                 Container(
-//                   padding: EdgeInsets.only(left: 5),
-//                   child: Text(
-//                     "Your Food Cart",
-//                     style: TextStyle(
-//                         fontSize: 20,
-//                         color: Color(0xFF3a3a3b),
-//                         fontWeight: FontWeight.w600),
-//                     textAlign: TextAlign.left,
-//                   ),
-//                 ),
-//                 SizedBox(
-//                   height: 10,
-//                 ),
-//                 CartItem(
-//                     productName: "Grilled Salmon",
-//                     productPrice: "\$96.00",
-//                     productImage: "ic_popular_food_1",
-//                     productCartQuantity: "2"),
-//                 SizedBox(
-//                   height: 10,
-//                 ),
-//                 CartItem(
-//                     productName: "Meat vegetable",
-//                     productPrice: "\$65.08",
-//                     productImage: "ic_popular_food_4",
-//                     productCartQuantity: "5"),
-//                 SizedBox(
-//                   height: 20,
-//                 ),
-//                 TotalCalculationWidget(),
-//                 SizedBox(
-//                   height: 10,
-//                 ),
-//                 Container(
-//                   padding: EdgeInsets.only(left: 5),
-//                   child: Text(
-//                     "Payment Method",
-//                     style: TextStyle(
-//                         fontSize: 20,
-//                         color: Color(0xFF3a3a3b),
-//                         fontWeight: FontWeight.w600),
-//                     textAlign: TextAlign.left,
-                      /// main
                     ),
                   ),
                 ),
@@ -858,7 +522,7 @@ class TotalCalculationWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      width: double.infinity,
+      //width: double.infinity,
       height: 100,
       decoration: BoxDecoration(boxShadow: [
         BoxShadow(
@@ -891,7 +555,7 @@ class TotalCalculationWidget extends StatelessWidget {
                       itemCount: items.length,
                       itemBuilder: (BuildContext ctxt, int index) {
                         return new Text(
-                          items[index] +
+                          items[index].toString() +
                               "       " +
                               quantity[index].toString() +
                               "         " +
@@ -929,7 +593,7 @@ class TotalCalculationWidget extends StatelessWidget {
   }
 }
 
-class CartItem extends StatelessWidget {
+/*class CartItem extends StatelessWidget {
   String productName;
   String productPrice;
   String productImage;
@@ -1044,7 +708,7 @@ class CartItem extends StatelessWidget {
           )),
     );
   }
-}
+}*/
 
 class CartIconWithBadge extends StatelessWidget {
   int counter = 3;

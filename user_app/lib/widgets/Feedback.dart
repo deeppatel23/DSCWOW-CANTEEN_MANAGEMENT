@@ -25,7 +25,7 @@ class _BestFoodWidgetState extends State<FeedBack> {
           title: Center(
               child: Text(
             'Feedback',
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
           )),
         ),
         body: Center(
@@ -36,22 +36,26 @@ class _BestFoodWidgetState extends State<FeedBack> {
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
                   alignment: Alignment.center,
-                  height: 100,
-                  width: 200,
+                  height: 150,
+                  width: MediaQuery.of(context).size.width / 1.2,
                   child: TextFormField(
+                    maxLines: null,
                     controller: feedbackController,
                     decoration: new InputDecoration(
                       hintText: 'Feedback',
                       border: InputBorder.none,
+                      fillColor: Colors.black,
                     ),
+                    textAlign: TextAlign.center,
                   ),
                   decoration: new BoxDecoration(
                     shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     border: new Border.all(
-                      color: Colors.black,
+                      color: Colors.pink,
                       width: 1.0,
                     ),
+                    color: Colors.white,
                   ),
                 ),
               ),

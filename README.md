@@ -8,6 +8,6 @@ break time is limited so it is difficult for students and teachers to have their
 Solution - We have built mobile applications that can help users to order food.
            We also have an admin app that monitors all the orders and adds or deletes various products as per availability.
            
-[![Watch the video](https://youtu.be/I7wPQPE1WHw)
+[![Watch the video](https://i.imgur.com/vKb2F1B.png)](https://youtu.be/I7wPQPE1WHw)
 
                     

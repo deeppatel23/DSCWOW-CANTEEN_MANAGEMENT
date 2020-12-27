@@ -8,6 +8,8 @@ break time is limited so it is difficult for students and teachers to have their
 Solution - We have built mobile applications that can help users to order food.
            We also have an admin app that monitors all the orders and adds or deletes various products as per availability.
            
+In the end, we were able to make upto top 20.
+           
 [![Watch the video](https://github.com/deeppatel23/DSCWOW-CANTEEN_MANAGEMENT/blob/main/Screenshot%202020-12-25%20at%2012.20.53%20PM.png)](https://youtu.be/I7wPQPE1WHw)
 
                     
